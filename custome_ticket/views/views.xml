@@ -1,0 +1,73 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id ="custom_ticket_form">
+      <field name="name">Custom Ticket</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+      <field name="arch" type="xml">
+         <xpath expr="//field[@name='user_id']" position="attributes">  
+            <attribute name="attrs">{'invisible':1}</attribute>
+         </xpath>
+         <xpath expr="//field[@name='team_id']" position="attributes">
+            
+            <attribute name="attrs">{'invisible':1}</attribute>
+         </xpath>
+         <xpath expr="//field[@name='date_deadline']" position="attributes">
+            <attribute name="attrs">{'invisible':1}</attribute>
+         </xpath> 
+
+         <xpath expr="//field[@name='priority']" position="attributes">
+            <attribute name="attrs">{'invisible':1}</attribute>
+         </xpath> 
+         
+         <field name = 'partner_id' position="before">
+          <field name="employee_id" string="employee"  />
+         </field> 
+
+         <field name="partner_address_phone" position="after">
+          <field name="number_of_packs" string="Number Of Packs"/>
+          <field name="number_of_destinations" string="Number of Destinations" />
+         </field>
+        
+        <xpath expr="//field[@name='date_deadline']" position="after">
+            <field name="ticket_source"/>
+            <field name="cost"/>
+            <field name="commission" string="Mark up"/>
+            <button string="Compute Cost" type="object"  name="compute_total_cost" class="oe_highlight" />
+         </xpath>
+          
+          <!-- Hide the two pages in the note book -->
+          <xpath expr="//notebook/page[1]" position="attributes">
+            <attribute name="attrs">{'invisible':1}</attribute>
+          </xpath>
+          <xpath expr="//notebook/page[2]" position="attributes">
+            <attribute name="attrs">{'invisible':1}</attribute>
+          </xpath>
+
+          <!-- Adding the packages section to the notebook -->
+          <xpath  expr="//notebook/page[1]" position="after">
+            <page string="Packages">
+              <field name="packages_ids" widget="section_and_note_one2many" string="Packages" >
+                <tree string="Packages">
+                  <control>
+                    <create string="Add a Package" />
+                    <create string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                    <create string="Note might be important" context="{'default_display_type': 'line_section'}"/>
+                  </control>
+                  <field name="name" />
+                  <field name="commission" />
+                  <field name="checkin_date"/>
+                  <field name="cost"/>
+                  
+                </tree>
+              </field>
+              
+            </page>
+         </xpath>          
+         
+      </field>
+    </record>
+
+  </data>
+</odoo>
